@@ -27,7 +27,7 @@ def daemon():
             # Realizar acciones adicionales con el resultado si es necesario
 
         elapsed_time = time.time() - start_time
-        sleep_time = max(0, 20 - elapsed_time)  # Asegurarse de que sleep_time sea al menos 0
+        sleep_time = max(0, 30 - elapsed_time)  # Asegurarse de que sleep_time sea al menos 0
 
         time.sleep(sleep_time)
 
@@ -40,6 +40,13 @@ daemon_thread.start()
 def traffic(interface):
     if interface in interfaces_routes:
         return Response(tgraph.grafic_interface(interfaces_routes[interface]), content_type='image/svg+xml')
+    else:
+        return jsonify({'status': 'error', 'message': 'Invalid interface'}), 404
+
+@app.route('/alerts/<interface>', methods=['GET'])
+def trap_traps(interface):
+    if interface in interfaces_routes:
+        return Response(tgraph.grafic_traps(interfaces_routes[interface]), content_type='image/svg+xml')
     else:
         return jsonify({'status': 'error', 'message': 'Invalid interface'}), 404
 
