@@ -1,0 +1,14 @@
+# Define the Flask endpoint
+@app.route('/traffic/<interface>', methods=['GET'])
+def traffic(interface):
+    if interface in interfaces_routes:
+        return Response(tgraph.grafic_interface(interfaces_routes[interface]), content_type='image/svg+xml')
+    else:
+        return jsonify({'status': 'error', 'message': 'Invalid interface'}), 404
+
+@app.route('/alerts/<interface>', methods=['GET'])
+def trap_traps(interface):
+    if interface in interfaces_routes:
+        return Response(tgraph.grafic_traps(interfaces_routes[interface]), content_type='image/svg+xml')
+    else:
+        return jsonify({'status': 'error', 'message': 'Invalid interface'}), 404

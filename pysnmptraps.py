@@ -1,52 +1,62 @@
-#Receptor python de traps snmp
+# trap_handler.py
 from pysnmp.entity import engine, config
 from pysnmp.carrier.asyncore.dgram import udp
 from pysnmp.entity.rfc3413 import ntfrcv
 import logging
 
-snmpEngine = engine.SnmpEngine()
+filtered_values = set()
 
-TrapAgentAddress='192.168.8.10'; #Direccion del escucha de traps
-Port=162;  #Puerto
+def add_filter(host, interface):
+    print("Añadiendo filtro")
+    filtered_values.add((host, interface))
+    print(filtered_values)
 
-logging.basicConfig(filename='traps_recibidas.log', filemode='w', format='%(asctime)s - %(message)s', level=logging.INFO)
+def remove_filter(host, interface):
+    filtered_values.discard((host, interface))
 
-logging.info("El gestor esta escuchando SNMP Traps en "+TrapAgentAddress+" , Puerto : " +str(Port))
-logging.info('--------------------------------------------------------------------------')
+def is_filtered(host, interface):
+    return (host, interface) in filtered_values
 
-print("El gestor esta escuchando SNMP Traps en "+TrapAgentAddress+" , Puerto : " +str(Port));
+def start_trap_listener():
+    snmpEngine = engine.SnmpEngine()
 
-config.addTransport(
-    snmpEngine,
-    udp.domainName + (1,),
-    udp.UdpTransport().openServerMode((TrapAgentAddress, Port))
-)
+    TrapAgentAddress = '192.168.0.10'
+    Port = 162
 
-#Configuracion de comunidad V1 y V2c
-config.addV1System(snmpEngine, 'public', 'public')
+    logging.basicConfig(filename='traps_recibidas.log', filemode='w', format='%(asctime)s - %(message)s', level=logging.INFO)
 
-#Configuracion de usuario V3
-#config.addV3User(
-#	snmpEngine, 'usr-sha-aes128',
-#	config.usmHMACSHAAuthProtocol, 'authkey1',
-#	config.usmAesCfb128Protocol, 'privkey1'
-#)
+    logging.info("El gestor está escuchando SNMP Traps en " + TrapAgentAddress + ", Puerto : " + str(Port))
+    logging.info('--------------------------------------------------------------------------')
 
-def cbFun(snmpEngine, stateReference, contextEngineId, contextName,
-          varBinds, cbCtx):
-    print("Mensaje nuevo de traps recibido");
-    logging.info("Mensaje nuevo de traps recibido")
-    for name, val in varBinds:   
-        logging.info('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
-        print('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
+    config.addTransport(
+        snmpEngine,
+        udp.domainName + (1,),
+        udp.UdpTransport().openServerMode((TrapAgentAddress, Port))
+    )
 
-    logging.info("==== Fin del mensaje de la trampa ====")
-ntfrcv.NotificationReceiver(snmpEngine, cbFun)
+    config.addV1System(snmpEngine, 'public', 'public')
 
-snmpEngine.transportDispatcher.jobStarted(1)  
+    def cbFun(snmpEngine, stateReference, contextEngineId, contextName, varBinds, cbCtx):
+        print("Nuevo mensaje de traps recibido")
+        logging.info("Nuevo mensaje de traps recibido")
 
-try:
-    snmpEngine.transportDispatcher.runDispatcher()
-except:
-    snmpEngine.transportDispatcher.closeDispatcher()
-    raise
+        for name, val in varBinds:
+            if val.prettyPrint() in [interface for _, interface in filtered_values]:
+                logging.info("Ignorando mensaje debido a filtro")
+                return
+
+        for name, val in varBinds:
+            logging.info('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
+            print('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
+
+        logging.info("==== Fin del mensaje de la trampa ====")
+
+    ntfrcv.NotificationReceiver(snmpEngine, cbFun)
+
+    snmpEngine.transportDispatcher.jobStarted(1)
+
+    try:
+        snmpEngine.transportDispatcher.runDispatcher()
+    except:
+        snmpEngine.transportDispatcher.closeDispatcher()
+        raise

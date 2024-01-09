@@ -1,0 +1,10 @@
+{"Tiempo": "2024-01-09T13:24:58.936180", "hostname": "R2", "fa2/0_In_uPackets": 1191.0, "fa2/0_Out_uPackets": 1248.0}
+{"Tiempo": "2024-01-09T13:25:09.091098", "hostname": "R2", "fa2/0_In_uPackets": 1202.0, "fa2/0_Out_uPackets": 1259.0}
+{"Tiempo": "2024-01-09T13:25:19.229334", "hostname": "R2", "fa2/0_In_uPackets": 1213.0, "fa2/0_Out_uPackets": 1270.0}
+{"Tiempo": "2024-01-09T13:25:29.365799", "hostname": "R2", "fa2/0_In_uPackets": 1224.0, "fa2/0_Out_uPackets": 1281.0}
+{"Tiempo": "2024-01-09T13:25:39.506878", "hostname": "R2", "fa2/0_In_uPackets": 1235.0, "fa2/0_Out_uPackets": 1292.0}
+{"Tiempo": "2024-01-09T13:25:49.644534", "hostname": "R2", "fa2/0_In_uPackets": 1246.0, "fa2/0_Out_uPackets": 1303.0}
+{"Tiempo": "2024-01-09T13:25:59.792871", "hostname": "R2", "fa2/0_In_uPackets": 1257.0, "fa2/0_Out_uPackets": 1314.0}
+{"Tiempo": "2024-01-09T13:26:09.943796", "hostname": "R2", "fa2/0_In_uPackets": 1268.0, "fa2/0_Out_uPackets": 1325.0}
+{"Tiempo": "2024-01-09T13:26:20.095806", "hostname": "R2", "fa2/0_In_uPackets": 1279.0, "fa2/0_Out_uPackets": 1336.0}
+{"Tiempo": "2024-01-09T13:26:30.240129", "hostname": "R2", "fa2/0_In_uPackets": 1290.0, "fa2/0_Out_uPackets": 1347.0}

@@ -1,0 +1,7 @@
+{"Tiempo": "2024-01-09T10:15:47.056404", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 22.0}
+{"Tiempo": "2024-01-09T10:15:57.159534", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 23.0}
+{"Tiempo": "2024-01-09T10:16:07.211461", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 24.0}
+{"Tiempo": "2024-01-09T10:16:17.255682", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 25.0}
+{"Tiempo": "2024-01-09T10:16:27.312999", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 26.0}
+{"Tiempo": "2024-01-09T10:16:37.359669", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 27.0}
+{"Tiempo": "2024-01-09T10:16:47.405315", "hostname": "TDR-1", "fa1/1_In_uPackets": 0.0, "fa1/1_Out_uPackets": 28.0}

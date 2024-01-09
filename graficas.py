@@ -11,12 +11,11 @@ interfaces = {
     'fa1/1': 2
 }
 
-def grafic_interface(interface):
+def grafic_interface(host,interface):
     x_time = []
     out_pps = []
     in_pps = []
-
-    with open(f'./Data/traffic{interfaces[interface]}.txt', 'r') as f:
+    with open(f'./Data/{host}{interface}.txt', 'r') as f:
         previous_time = None
         previous_out_packets = 0
         previous_in_packets = 0
@@ -25,8 +24,8 @@ def grafic_interface(interface):
             line = eval(line)
             current_time = line['Tiempo']
             print(datetime.fromisoformat(current_time))
-            current_out_packets = float(line[interface + '_Out_uPackets'])
-            current_in_packets = float(line[interface + '_In_uPackets'])
+            current_out_packets = float(line[interfaces_routes[interface] + '_Out_uPackets'])
+            current_in_packets = float(line[interfaces_routes[interface]+ '_In_uPackets'])
 
             if previous_time is not None:
                 time_diff = (datetime.fromisoformat(current_time) - datetime.fromisoformat(previous_time)).total_seconds()
@@ -44,20 +43,31 @@ def grafic_interface(interface):
     line_chart.add('Paq. salida (pps)', out_pps)
     line_chart.add('Paq. entrada (pps)', in_pps)
     return line_chart.render()
-trap_interface={
-    "fa0/0":"FastEthernet0/0",
-    "fa0/1":"FastEthernet0/1",
-    "fa1/1":"FastEthernet1/1"
+interfaces_routes = {
+    'fa0-0': 'fa0/0',
+    'fa1-0': 'fa1/0',
+    'fa1-1': 'fa1/1',
+    'fa2-0': 'fa2/0',  
+    'fa2-1': 'fa2/1',
+    'fa3-0': 'fa3/0',
+    'fa3-1': 'fa3/1',
+    'fa4-0': 'fa4/0',
+    'fa4-1': 'fa4/1',
+    'fa5-0': 'fa5/0',
+    'fa5-1': 'fa5/1',
+    'fa6-0': 'fa6/0',
+    'fa6-1': 'fa6/1',
 }
 
-def grafic_traps(interface):
+def grafic_traps(host,interface):
     traps =  get_trapsf("traps_recibidas.log")
     time = []
     status = []
     for trap in traps:
-        if (trap.interfaz == trap_interface[interface]):
+        print(interface + "" + host)
+        if (trap.interfaz == interface and trap.address == host):
             time.append(trap.hora)
-            if(trap.estado == "up"):
+            if(trap.estado != "administratively down"):
                 status.append(5)
             else:
                 status.append(0)
